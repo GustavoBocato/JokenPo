@@ -1,5 +1,5 @@
 ﻿using JokenPo.Models;
-using JokenPo.Models.AbstractClasses;
+using JokenPo.Models.Enums;
 
 namespace JokenPo.Data.Interfaces
 {
@@ -9,5 +9,6 @@ namespace JokenPo.Data.Interfaces
         public Player Add(Player player);
         public bool Remove(Guid id);
         public bool PlayerMakesMove(Guid id, Hand play);
+        public void Clean();
     }
 }

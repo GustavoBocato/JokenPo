@@ -1,6 +1,6 @@
 ﻿using JokenPo.Data.Interfaces;
 using JokenPo.Models;
-using JokenPo.Models.AbstractClasses;
+using JokenPo.Models.Enums;
 
 namespace JokenPo.Data.Repositories
 {
@@ -32,6 +32,11 @@ namespace JokenPo.Data.Repositories
 
             player.Hand = hand;
             return true;
+        }
+
+        public void Clean()
+        {
+            players.Clear();
         }
     }
 }

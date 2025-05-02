@@ -1,4 +1,4 @@
-using JokenPo.Models.AbstractClasses;
+using JokenPo.Models.Enums;
 
 namespace JokenPo.Models
 {
@@ -6,6 +6,6 @@ namespace JokenPo.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Hand? Hand { get; set; }
+        public Hand Hand { get; set; } = Hand.None;
     }
 }

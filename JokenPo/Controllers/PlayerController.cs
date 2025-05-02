@@ -1,4 +1,5 @@
 using JokenPo.Commands;
+using JokenPo.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ namespace JokenPo.Controllers
             return Ok(player);
         }
 
-        [HttpDelete(Name = "DeletePlayer")]
+        [HttpDelete("player", Name = "DeletePlayer")]
         public async Task<IActionResult> Delete([FromBody] DeletePlayerCommand command)
         {
             var result = _mediator.Send(command);
@@ -39,30 +40,27 @@ namespace JokenPo.Controllers
         public async Task<IActionResult> Patch([FromBody] PlayCommand command)
         {
             var result = _mediator.Send(command).Result;
-            var moveMadeSuccessfully = result.MoveMadeSuccessfully;
-            var gameEnded = result.GameEnded;
-            var winner = result.Winner;
 
-            if (moveMadeSuccessfully)
+            if (result) 
             {
-                if (gameEnded)
-                {
-                    if(winner is not null)
-                    {
-                        return Ok("The player made the move successfully. And the game has ended," +
-                            $" the winner is {winner}");
-                    }
-                    else
-                    {
-                        return Ok("The player made the move successfully. And the game has ended" +
-                            " in a draw.");
-                    }
-                }
-
                 return Ok("Player made the move successfully");
             }
 
             return NotFound("Player to make a move was not found in our database.");
+        }
+
+        [HttpGet(Name = "GetStatus")]
+        public async Task<IActionResult> GetStatus()
+        {
+            var result = await _mediator.Send(new GetStatusQuery());
+            return Ok(result);
+        }
+
+        [HttpDelete("restart", Name = "RestartGame")]
+        public async Task<IActionResult> RestartGame()
+        {
+            var result = await _mediator.Send(new RestartGameCommand());
+            return Ok("The game was restarted successfully.");
         }
     }
 }
