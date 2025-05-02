@@ -26,7 +26,7 @@ namespace JokenPo.Data.Repositories
 
         public bool PlayerMakesMove(Guid id, Hand hand)
         {
-            var player = players.Where(p =>p.Id == id).First();
+            var player = players.Where(p =>p.Id == id).FirstOrDefault();
             
             if(player == null) return false;
 
