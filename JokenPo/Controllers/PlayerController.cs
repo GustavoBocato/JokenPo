@@ -55,12 +55,5 @@ namespace JokenPo.Controllers
             var result = await _mediator.Send(new GetStatusQuery());
             return Ok(result);
         }
-
-        [HttpDelete("restart", Name = "RestartGame")]
-        public async Task<IActionResult> RestartGame()
-        {
-            var result = await _mediator.Send(new RestartGameCommand());
-            return Ok("The game was restarted successfully.");
-        }
     }
 }

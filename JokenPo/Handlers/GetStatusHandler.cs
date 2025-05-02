@@ -3,6 +3,7 @@ using JokenPo.Utils;
 using JokenPo.Models.RequestResponses;
 using JokenPo.Queries;
 using MediatR;
+using JokenPo.Models;
 
 namespace JokenPo.Handlers
 {
@@ -21,9 +22,14 @@ namespace JokenPo.Handlers
 
             var response = new GetStatusQueryResponse()
             {
-                Players = players,
+                Players = new List<Player>(players),
                 ResultMessage = GameResultDeterminator.GameStatusMessage(players)
             };
+
+            if (GameResultDeterminator.GameHasEnded(players))
+            {
+                _playerRepository.Clean();
+            }
 
             return response;
         }
