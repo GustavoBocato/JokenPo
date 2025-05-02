@@ -1,13 +1,13 @@
-﻿namespace JokenPo.Commands
-{
-    using JokenPo.Models;
-    using MediatR;
+﻿using JokenPo.Models;
+using MediatR;
 
-    public class CreateUserCommand : IRequest<Player>
+namespace JokenPo.Commands
+{
+    public class CreatePlayerCommand : IRequest<Player>
     {
         public string Name { get; set; }
 
-        public CreateUserCommand(string name)
+        public CreatePlayerCommand(string name)
         {
             Name = name;
         }

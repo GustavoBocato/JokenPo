@@ -1,29 +1,28 @@
-﻿namespace JokenPo.Handlers
+﻿using JokenPo.Commands;
+using JokenPo.Data.Interfaces;
+using JokenPo.Models;
+using MediatR;
+
+namespace JokenPo.Handlers
 {
-    using JokenPo.Commands;
-    using JokenPo.Models;
-    using MediatR;
-
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, Player>
+    public class CreateUserHandler : IRequestHandler<CreatePlayerCommand, Player>
     {
-        // Simulating database
-        private static readonly List<Player> _users = new()
-    {
-        new Player { Id = 1, Name = "Alice" },
-        new Player { Id = 2, Name = "Bob" }
-    };
+        private IPlayerRepository _playerRepository;
 
-        public async Task<Player> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public CreateUserHandler(IPlayerRepository playerRepository)
         {
-            var newUser = new Player
+            _playerRepository = playerRepository;
+        }
+
+        public async Task<Player> Handle(CreatePlayerCommand request, CancellationToken cancellationToken)
+        {
+            var player = new Player
             {
-                Id = _users.Max(u => u.Id) + 1, // Generate a new Id
+                Id = Guid.NewGuid(),
                 Name = request.Name
             };
 
-            _users.Add(newUser);
-
-            return await Task.FromResult(newUser);
+            return await Task.FromResult(_playerRepository.Add(player));
         }
     }
 }
